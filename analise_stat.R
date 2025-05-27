@@ -6,7 +6,7 @@ library(ggplot2)
 
 # Carregar o dataset 
 
-dados <- read.csv("C:/Users/Utilizador/Desktop/dados_stat.csv", sep = ";", dec = ",", header = TRUE)
+dados <- read.csv("C:/Users/jmrc2/Desktop/dados_stat.csv", sep = ";", dec = ",", header = TRUE)
 
 # Converti tudo em dados numéricos para poder fazer os testes sem ter problemas
 
@@ -71,12 +71,23 @@ summary(modelo)
 
 # Grafico de barras com o erro padrão (LD por condição)
 
-dados_long <- dados %>% select(Subject, LD.A, LD.R, LD.RA) %>% pivot_longer(cols = starts_with("LD."), names_to = "Condicao", values_to = "LD")
+dados_ld <- dados %>% select(Subject, LD.A, LD.R, LD.RA) %>% pivot_longer(cols = starts_with("LD."), names_to = "Condicao", values_to = "LD")
 
-ggplot(dados_long, aes(x = Condicao, y = LD)) +
+ggplot(dados_ld, aes(x = Condicao, y = LD)) +
   stat_summary(fun = mean, geom = "bar", fill = "skyblue") +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2) +
   ylab("Limiar Condicional (LD)") +
+  xlab("Condição Emocional") +
+  theme_minimal()
+
+# Gráfico de barras com o PSE (PSE por condição)
+
+dados_pse <- dados %>% select(Subject, PSE.A, PSE.R, PSE.RA) %>% pivot_longer(cols = starts_with("PSE."), names_to = "Condicao", values_to = "PSE")
+
+ggplot(dados_pse, aes(x = Condicao, y = PSE)) +
+  stat_summary(fun = mean, geom = "bar", fill = "red") +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2) +
+  ylab("Pontos de Equivalência Subjetiva (PSE)") +
   xlab("Condição Emocional") +
   theme_minimal()
 
@@ -88,15 +99,7 @@ ggplot(dados, aes(x = TP, y = PSE.A)) +
   labs(x = "Tomada de Perspetiva", y = "PSE - Alegria", title = "Correlação entre TP e PSE-Alegria") +
   theme_minimal()
 
-# Gráfico da Correlação 2 - Empatia (Preocupação Empática) e Raiva 
-
-ggplot(dados, aes(x = PE, y = PSE.R)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = TRUE, color = "red") +
-  labs(x = "Preocupação Empática", y = "PSE - Raiva", title = "Correlação entre PE e PSE-Raiva") +
-  theme_minimal()
-
-# Gráfico da Correlação 3 - Empatia (Preocupação Empática) e Raiva-Alegria
+# Gráfico da Correlação 2 - Empatia (Preocupação Empática) e Raiva-Alegria
 
 ggplot(dados, aes(x = PE, y = PSE.RA)) +
   geom_point() +
@@ -104,7 +107,7 @@ ggplot(dados, aes(x = PE, y = PSE.RA)) +
   labs(x = "Preocupação Empática", y = "PSE - RaivaAlegria", title = "Correlação entre PE e PSE-RaivaAlegria") +
   theme_minimal()
 
-# Gráfico da Correlação 4 - Ansiedade (Ansiedade - Traço) e Raiva-Alegria
+# Gráfico da Correlação 3 - Ansiedade (Ansiedade - Traço) e Raiva-Alegria
 
 ggplot(dados, aes(x = ANS, y = PSE.RA)) +
   geom_point() +
