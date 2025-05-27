@@ -30,10 +30,7 @@ cor.test(dados$PE, dados$PSE.RA)
 
 # Correlação 4 - Ansiedade (Ansiedade - Traço) e Raiva-Alegria
 
-cor.test(dados$ANS, dados$PSE.RA) 
-
-# Estas correlações investigam se as variáveis psicológicas empatia e ansiedade têm relação com o enviesamento (PSE) na perceção das emoções. 
-# Valores significativos mostram que quanto maior a empatia ou ansiedade, maior ou menor o ponto de equivalência subjetiva, indicando modulação do enviesamento , portanto, apoio à hipótese 1 e 2.
+cor.test(dados$ANS, dados$PSE.RA)
 
 # --------------------------------------------------------------------------------
 # T-TESTS COM PONTOS DE EQUIVALÊNCIA SUBJETIVA (PSE) E LIMIARES DIFERENCIAIS (LD)
@@ -51,19 +48,12 @@ t.test(dados$LD.A, dados$LD.R, paired = TRUE)
 
 t.test(dados$LD.A, dados$LD.RA, paired = TRUE)
 
-# Estes t-tests com medidas pareadas comparam diretamente o enviesamento (PSE) e a sensibilidade (LD) entre emoções Alegria e Raiva. 
-# Resultados significativos indicam que as emoções são percebidas de forma diferente, validando a hipótese 1 e 2. 
-
 # --------------------------------------------------------------------------------
 # MODELO DE REGRESSÃO LINEAR
 # --------------------------------------------------------------------------------
 
 modelo <- lm(PSE.RA ~ TP + PE + ANS, data = dados)
 summary(modelo)
-
-# O p.value do ANS é 0.031 logo é significativo, o que indica que a ansiedade é um preditor significativo mesmo controlado pela empatia
-# Quanto maior a ansiedade, menor o ponto de equivalência subjetiva → ou seja, os participantes com mais ansiedade percebem a transição entre raiva e alegria de forma diferente
-# Defende a Hipotese 1!!!
 
 # --------------------------------------------------------------------------------
 # GGPLOTS
