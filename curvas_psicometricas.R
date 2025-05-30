@@ -12,13 +12,6 @@ dados <- read.csv(file.choose(), sep = ";", dec = ",", header = TRUE)
 
 dados <- dados %>% mutate(across(c(PSE.A,PSE.R,PSE.RA,LD.A,LD.R,LD.RA,PE,TP,ANS), as.numeric))
 
-#---> Adicionar carmen
-
-View(dados)
-dados$Sex<- as.factor(dados$Sex)
-
-mean(dados$Age)
-
 labels <- paste(names(table(dados$Sex)), " (", table(dados$Sex), " p)", sep = "")
 pie(table(dados$Sex),
     labels = labels,
@@ -56,6 +49,23 @@ for (y in medias_a) {
   abline(h = y, lty = 2, col = "gray")
 }
 
+z_scores <- qnorm(medias_a)
+medias_a_corr <- pmin(pmax(medias_a, 0.01), 0.99)
+z_scores <- qnorm(medias_a_corr)
+modelo <- lm(z_scores ~ estimulos_a)
+summary(modelo)
+z_targets <- qnorm(c(0.25, 0.5, 0.75))
+a <- coef(modelo)[1]
+b <- coef(modelo)[2]
+x_targets <- (z_targets - a) / b
+z_targets
+x_targets
+z_scores
+
+declive <- coef(modelo)[2]
+declive
+
+
 # Curva psicofisica raiva
 
 # Selecionar apenas as colunas das intensidades
@@ -79,6 +89,22 @@ plot(estimulos_r, medias_r,
 for (y in medias_r) {
   abline(h = y, lty = 2, col = "gray")
 }
+
+z_scores <- qnorm(medias_r)
+medias_r_corr <- pmin(pmax(medias_r, 0.01), 0.99)
+z_scores <- qnorm(medias_r_corr)
+modelo <- lm(z_scores ~ estimulos_r)
+summary(modelo)
+z_targets <- qnorm(c(0.25, 0.5, 0.75))
+a <- coef(modelo)[1]
+b <- coef(modelo)[2]
+x_targets <- (z_targets - a) / b
+z_targets
+x_targets
+z_scores
+
+declive <- coef(modelo)[2]
+declive
 
 
 # Curva psicofisica alegria-raiva
@@ -105,4 +131,18 @@ for (y in medias_a_r) {
   abline(h = y, lty = 2, col = "gray")
 }
 
+z_scores <- qnorm(medias_a_r)
+medias_ar_corr <- pmin(pmax(medias_a_r, 0.01), 0.99)
+z_scores <- qnorm(medias_ar_corr)
+modelo <- lm(z_scores ~ estimulos_a_r)
+summary(modelo)
+z_targets <- qnorm(c(0.25, 0.5, 0.75))
+a <- coef(modelo)[1]
+b <- coef(modelo)[2]
+x_targets <- (z_targets - a) / b
+z_targets
+x_targets
+z_scores
 
+declive <- coef(modelo)[2]
+declive
